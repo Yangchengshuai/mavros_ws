@@ -7,8 +7,9 @@ This branch is master !
 
 #### Installation
 1. git clone https://gitee.com/greymaner/unionsys_core_algrithm_deb.git
-2. cd <path of your system type> sudo dpkg -i unionsys_core-1.1.0-Linux.deb
-3.  catkin_make
+2. cd unionsys_core_algrithm_deb/arm64
+3. sudo dpkg -i unionsys_core-1.1.0-Linux.deb
+
 
 
 #### Instructions
