@@ -6,8 +6,9 @@ fast planner using autonomic offboard algrithm with t265 . d435i . rplidar s1
 This branch is master ! 
 
 #### Installation
-
-1.  catkin_make
+1. git clone https://gitee.com/greymaner/unionsys_core_algrithm_deb.git
+2. cd <path of your system type> sudo dpkg -i unionsys_core-1.1.0-Linux.deb
+3.  catkin_make
 
 
 #### Instructions
