@@ -75,10 +75,10 @@ int scan_chixu_cnt = 0;
 bool IFPLANNER;
 double lidar_avoid_distance;
 
-//t265 to flight controler imu distance
-#define DELTA_X 0.1
+//Position  camera on plane coord
+#define DELTA_X -0.1
 #define DELTA_Y 0.0
-#define DELTA_Z 0.05
+#define DELTA_Z -0.05
 
 #define DEAD_ZONE 0.01 //dead zone, unit: m
 #define POS_I_DEAD_ZONE 0.04 //in dead zone, don't intergrate
@@ -105,7 +105,9 @@ geometry_msgs::Point planned_point;
 geometry_msgs::Point planned_velocity;
 geometry_msgs::Vector3 current_imu_angle;
 geometry_msgs::Quaternion current_angle;
-geometry_msgs::Vector3 curr_angle;
+geometry_msgs::Vector3 curr_cam_angle;
+geometry_msgs::Vector3 curr_plane_angle;
+geometry_msgs::Vector3 camera_setup_angle;
 
 
 

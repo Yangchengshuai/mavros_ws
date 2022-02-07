@@ -30,15 +30,21 @@ void odometry_callback(const nav_msgs::Odometry &current_info)
     current_angle.y= current_info.pose.pose.orientation.y;
     current_angle.z= current_info.pose.pose.orientation.z;
     current_angle.w= current_info.pose.pose.orientation.w;
-    curr_angle = unionsys_core->toEulerAngle(current_angle);
+    curr_cam_angle = unionsys_core->toEulerAngle(current_angle);
     // pitch down 45 and yaw 180 degree
-    curr_angle.y -= 0.7854;
-    curr_angle.z -= 3.1416;
-    geometry_msgs::Point rotation_hehe_data = unionsys_core->rotation_hehe(curr_angle, DELTA_X, DELTA_Y, DELTA_Z);
+    curr_plane_angle.x = curr_cam_angle.x;
+    curr_plane_angle.y = curr_cam_angle.y-0.7854;
+    curr_plane_angle.z = curr_cam_angle.z-3.1416;
+
+    camera_setup_angle.x = 0;
+    camera_setup_angle.y = -0.7854;
+    camera_setup_angle.z = -3.1416;
+
+    //rotation_hehe_data =  -Rcg*Rcp*Pcp
+    geometry_msgs::Point rotation_hehe_data = unionsys_core->rotate_Rcg_Ppc(curr_cam_angle, camera_setup_angle, DELTA_X, DELTA_Y, DELTA_Z);
     current_point.x += rotation_hehe_data.x;
     current_point.y += rotation_hehe_data.y;
     current_point.z += rotation_hehe_data.z;
-    current_yaw_angle = curr_angle.z;
     //publish camera/pose
     geometry_msgs::PoseStamped pose_tf;
     //need to be test the rotate angle ,becuse of the setup formation of t265
@@ -259,7 +265,7 @@ void position_pid_control(geometry_msgs::Point current_set_point,geometry_msgs::
     if (1) {
         //use the flight controller yaw in default
         
-        float current_yaw = current_yaw_angle;
+        float current_yaw = curr_plane_angle.z;
         //Drone turns at the smallest angle
         float error_yaw = (target_yaw - current_yaw) * rad2deg;
         if (error_yaw < -180)
@@ -347,13 +353,10 @@ void position_pid_control(geometry_msgs::Point current_set_point,geometry_msgs::
         attitude_expect.z = 0;
     }
     else{
-        velocity_expected.x = vx_lim * cos(curr_angle.z) + vy_lim * sin(curr_angle.z);
-        velocity_expected.y = vy_lim * cos(curr_angle.z) - vx_lim * sin(curr_angle.z);
+        velocity_expected.x = vx_lim * cos(curr_plane_angle.z) + vy_lim * sin(curr_plane_angle.z);
+        velocity_expected.y = vy_lim * cos(curr_plane_angle.z) - vx_lim * sin(curr_plane_angle.z);
         velocity_expected.z = vz;
         attitude_expect.z = yaw_rate * deg2rad;
     }
-    // velocity_expected.x = vx * cos(curr_angle.z) + vy * sin(curr_angle.z);
-    // velocity_expected.y = vy * cos(curr_angle.z) - vx * sin(curr_angle.z);
-    // velocity_expected.z = vz;
-    // attitude_expect.z = yaw_rate * deg2rad;
+
 }
