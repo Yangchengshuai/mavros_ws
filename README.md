@@ -18,9 +18,6 @@ gnome-terminal -x bash -c
 sleep 10s  
 gnome-terminal -x bash -c   
 "source /home/zhou/mavros_ws/devel/setup.bash;roslaunch mavros px4.launch;exec bash"  
-sleep 10s  
-gnome-terminal -x bash -c   
-"source /home/zhou/mavros_ws/devel/setup.bash;roslaunch rplidar_ros rplidar_s1.launch ;exec bash"  
 sleep 5s  
 gnome-terminal -x bash -c    
 "source /home/zhou/mavros_ws/devel/setup.bash;roslaunch plan_manage topo_replan.launch ;exec bash"  
