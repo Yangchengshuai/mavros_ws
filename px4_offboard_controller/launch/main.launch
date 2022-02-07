@@ -1,0 +1,7 @@
+<launch> 
+  <param name="IFPLANNER"         type="bool" value="true"/>
+  <param name="lidar_avoid_distance"     type="double" value="0.7"/>
+  <node pkg="off_board_test" type="off_board_test" name="off_board_test" respawn="false" output="screen">
+  <!--remap from="cmd_vel_smoothed" to="cmd_vel_manual"/--> 
+  </node>
+</launch>
