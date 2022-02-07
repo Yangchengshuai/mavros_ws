@@ -32,7 +32,7 @@ void odometry_callback(const nav_msgs::Odometry &current_info)
     current_angle.w= current_info.pose.pose.orientation.w;
     curr_angle = unionsys_core->toEulerAngle(current_angle);
     // pitch down 45 and yaw 180 degree
-    curr_angle.y -= 0.785;
+    curr_angle.y -= 0.7854;
     curr_angle.z -= 3.1416;
     geometry_msgs::Point rotation_hehe_data = unionsys_core->rotation_hehe(curr_angle, DELTA_X, DELTA_Y, DELTA_Z);
     current_point.x += rotation_hehe_data.x;
@@ -42,7 +42,7 @@ void odometry_callback(const nav_msgs::Odometry &current_info)
     //publish camera/pose
     geometry_msgs::PoseStamped pose_tf;
     //need to be test the rotate angle ,becuse of the setup formation of t265
-    pose_tf = unionsys_core->calculate_cam_pos(current_info, 1.57, 0, 1.57);
+    pose_tf = unionsys_core->calculate_cam_pos(current_info, 1.57, -0.7854, -1.57);
     pose_tf.header.stamp = ros::Time::now();
     pose_tf.header.frame_id = "world";
 
