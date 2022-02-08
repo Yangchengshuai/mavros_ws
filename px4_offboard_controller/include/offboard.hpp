@@ -76,9 +76,9 @@ bool IFPLANNER;
 double lidar_avoid_distance;
 
 //Position  camera on plane coord
-#define DELTA_X -0.1
-#define DELTA_Y 0.0
-#define DELTA_Z -0.05
+#define DELTA_X -0.03
+#define DELTA_Y -0.0
+#define DELTA_Z -0.1
 
 #define DEAD_ZONE 0.01 //dead zone, unit: m
 #define POS_I_DEAD_ZONE 0.04 //in dead zone, don't intergrate
@@ -94,7 +94,7 @@ ros::Subscriber odometrysub;
 ros::Subscriber planWaypointsub;
 ros::Subscriber scan_tf_sub;
 ros::Publisher  local_vel_pub;
-ros::Publisher  pose_tf_pub;
+ros::Publisher  pose_tf_pub, pose_transform_pub;
 
 ros::ServiceClient arming_client;
 ros::ServiceClient set_mode_client;

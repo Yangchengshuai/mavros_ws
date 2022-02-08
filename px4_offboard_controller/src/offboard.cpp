@@ -31,24 +31,39 @@ void odometry_callback(const nav_msgs::Odometry &current_info)
     current_angle.z= current_info.pose.pose.orientation.z;
     current_angle.w= current_info.pose.pose.orientation.w;
     curr_cam_angle = unionsys_core->toEulerAngle(current_angle);
+    
     // pitch down 45 and yaw 180 degree
-    curr_plane_angle.x = curr_cam_angle.x;
-    curr_plane_angle.y = curr_cam_angle.y-0.7854;
-    curr_plane_angle.z = curr_cam_angle.z-3.1416;
-
     camera_setup_angle.x = 0;
-    camera_setup_angle.y = -0.7854;
-    camera_setup_angle.z = -3.1416;
+    camera_setup_angle.y = 0.7854;
+    camera_setup_angle.z = 3.1416;
+
+    geometry_msgs::Quaternion quaternion_cp=tf::createQuaternionMsgFromRollPitchYaw(camera_setup_angle.x,camera_setup_angle.y,camera_setup_angle.z);
+
+    geometry_msgs::Quaternion q_p_g = unionsys_core->quatMultiply(quaternion_cp, current_angle);
+    curr_plane_angle = unionsys_core->toEulerAngle(q_p_g);
 
     //rotation_hehe_data =  -Rcg*Rcp*Pcp
     geometry_msgs::Point rotation_hehe_data = unionsys_core->rotate_Rcg_Ppc(curr_cam_angle, camera_setup_angle, DELTA_X, DELTA_Y, DELTA_Z);
     current_point.x += rotation_hehe_data.x;
     current_point.y += rotation_hehe_data.y;
     current_point.z += rotation_hehe_data.z;
+    //publish plane odom
+    nav_msgs::Odometry plane_odom;
+    plane_odom = current_info;
+    plane_odom.pose.pose.position.x = current_point.x;
+    plane_odom.pose.pose.position.y = current_point.y;
+    plane_odom.pose.pose.position.z = current_point.z;
+    // geometry_msgs::Quaternion quaternion_tmp=tf::createQuaternionMsgFromRollPitchYaw(curr_plane_angle.x,curr_plane_angle.y,curr_plane_angle.z);
+    plane_odom.pose.pose.orientation.x=q_p_g.x;
+    plane_odom.pose.pose.orientation.y=q_p_g.y;
+    plane_odom.pose.pose.orientation.z=q_p_g.z;
+    plane_odom.pose.pose.orientation.w=q_p_g.w;
+    pose_transform_pub.publish(plane_odom);
+
     //publish camera/pose
     geometry_msgs::PoseStamped pose_tf;
     //need to be test the rotate angle ,becuse of the setup formation of t265
-    pose_tf = unionsys_core->calculate_cam_pos(current_info, 1.57, -0.7854, -1.57);
+    pose_tf = unionsys_core->calculate_cam_pos(plane_odom, 1.57, 0, 1.57);
     pose_tf.header.stamp = ros::Time::now();
     pose_tf.header.frame_id = "world";
 
@@ -98,6 +113,7 @@ int main(int argc, char **argv)
     scan_tf_sub = nh.subscribe("/scan", 10, scan_tf_callback);
 
     pose_tf_pub = nh.advertise<geometry_msgs::PoseStamped>("/camera/pose", 10);
+    pose_transform_pub = nh.advertise<nav_msgs::Odometry>("/plane_odom", 10);
     local_vel_pub = nh.advertise<geometry_msgs::TwistStamped>("/mavros/setpoint_velocity/cmd_vel", 10);
 
     arming_client = nh.serviceClient<mavros_msgs::CommandBool>("mavros/cmd/arming");

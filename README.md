@@ -15,19 +15,14 @@ This branch is master !
 #### Instructions
 
 #! /bin/bash  
-gnome-terminal -x bash -c   
-"source /home/zhou/mavros_ws/devel/setup.bash;roslaunch px4_realsense_bridge bridge.launch;exec bash"  
+gnome-terminal -x bash -c "source $HOME/mavros_ws/devel/setup.bash;roslaunch px4_realsense_bridge bridge.launch;exec bash"  
 sleep 10s  
-gnome-terminal -x bash -c   
-"source /home/zhou/mavros_ws/devel/setup.bash;roslaunch mavros px4.launch;exec bash"  
+gnome-terminal -x bash -c  "source $HOME/mavros_ws/devel/setup.bash;roslaunch mavros px4.launch;exec bash"  
 sleep 5s  
-gnome-terminal -x bash -c    
-"source /home/zhou/mavros_ws/devel/setup.bash;roslaunch plan_manage topo_replan.launch ;exec bash"  
+gnome-terminal -x bash -c  "source $HOME/mavros_ws/devel/setup.bash;roslaunch plan_manage topo_replan.launch ;exec bash"  
 sleep 5s  
-gnome-terminal -x bash -c   
-"source /home/zhou/mavros_ws/devel/setup.bash;roslaunch off_board_test main.launch ;exec bash"  
+gnome-terminal -x bash -c  "source $HOME/mavros_ws/devel/setup.bash;roslaunch off_board_test main.launch ;exec bash"  
 wait  
 exit 0  
-
 
 
