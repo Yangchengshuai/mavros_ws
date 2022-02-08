@@ -32,7 +32,7 @@ void odometry_callback(const nav_msgs::Odometry &current_info)
     current_angle.w= current_info.pose.pose.orientation.w;
     curr_cam_angle = unionsys_core->toEulerAngle(current_angle);
     
-    // pitch down 45 and yaw 180 degree
+    // pitch down 45 and yaw 180 degree , quaternion of plane to camera
     camera_setup_angle.x = 0;
     camera_setup_angle.y = 0.7854;
     camera_setup_angle.z = 3.1416;
@@ -62,8 +62,18 @@ void odometry_callback(const nav_msgs::Odometry &current_info)
 
     //publish camera/pose
     geometry_msgs::PoseStamped pose_tf;
-    //need to be test the rotate angle ,becuse of the setup formation of t265
-    pose_tf = unionsys_core->calculate_cam_pos(plane_odom, 1.57, 0, 1.57);
+    //need to be change the rotate angle ,becuse of the setup formation of d435i 
+    //pitch -90
+    Eigen::Matrix3d Rpitch;
+        Rpitch<< 0, 0, -1,
+            0, 1, 0,
+            1, 0, 0;
+    // roll 90
+    Eigen::Matrix3d Rroll;
+    Rroll<< 1, 0, 0,
+            0, 0, 1,
+            0, -1, 0;
+    pose_tf = unionsys_core->calculate_cam_pos(plane_odom, Rpitch, Rroll);
     pose_tf.header.stamp = ros::Time::now();
     pose_tf.header.frame_id = "world";
 
