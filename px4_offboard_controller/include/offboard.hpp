@@ -31,6 +31,7 @@
 #include <mavros_msgs/OverrideRCIn.h>
 #include <mavros_msgs/AttitudeTarget.h>
 #include <mavros_msgs/Altitude.h>
+#include <mavros_msgs/ActuatorControl.h>
 #include "quadrotor_msgs/PositionCommand.h"
 // #include "off_board_test/gimbal.h"
 #include <unionsys_core.hpp>
@@ -94,7 +95,7 @@ ros::Subscriber odometrysub;
 ros::Subscriber planWaypointsub;
 ros::Subscriber scan_tf_sub;
 ros::Publisher  local_vel_pub;
-ros::Publisher  pose_tf_pub, pose_transform_pub;
+ros::Publisher  pose_tf_pub, pose_transform_pub, aux_pub;
 
 ros::ServiceClient arming_client;
 ros::ServiceClient set_mode_client;

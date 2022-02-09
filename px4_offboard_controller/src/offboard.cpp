@@ -126,6 +126,8 @@ int main(int argc, char **argv)
     pose_transform_pub = nh.advertise<nav_msgs::Odometry>("/plane_odom", 10);
     local_vel_pub = nh.advertise<geometry_msgs::TwistStamped>("/mavros/setpoint_velocity/cmd_vel", 10);
 
+    aux_pub = nh.advertise<mavros_msgs::ActuatorControl>("/mavros/target_actuator_control", 10);
+
     arming_client = nh.serviceClient<mavros_msgs::CommandBool>("mavros/cmd/arming");
     set_mode_client = nh.serviceClient<mavros_msgs::SetMode>("mavros/set_mode");
     set_vechile_ned = nh.serviceClient<mavros_msgs::SetMavFrame>("mavros/setpoint_velocity/mav_frame");
@@ -134,6 +136,7 @@ int main(int argc, char **argv)
     ros::Rate rate(10);
     // wait for FCU connection
     while(ros::ok() && !current_state.connected){
+        std::cout<<"------------>wait for fcu connected..."<<std::endl;
         ros::spinOnce();
         rate.sleep();
     }
@@ -177,6 +180,15 @@ int main(int argc, char **argv)
         //         last_request = ros::Time::now();
         //     }
         // }
+
+        // mavros_msgs::ActuatorControl out_aux;
+        // out_aux.header.seq = 1;
+        // out_aux.header.stamp = ros::Time::now();
+        // out_aux.header.frame_id = "aux";
+        // out_aux.group_mix = 3;
+        // out_aux.controls = {1900.0,1900.0,1900.0,1900.0,1900.0,1900.0,1900.0,1900.0};
+        // aux_pub.publish(out_aux);
+
         
         if (IFPLANNER){
             if (planned_update_flag){
@@ -192,7 +204,7 @@ int main(int argc, char **argv)
                 msgtwist.header.seq=1;
                 msgtwist.twist.linear=linear_tmp;
                 msgtwist.twist.angular=angular_tmp;
-                ROS_INFO("send to vechile: %f %f %f %f",msgtwist.twist.linear.x,msgtwist.twist.linear.y,msgtwist.twist.linear.z,msgtwist.twist.angular.z*rad2deg);
+                // ROS_INFO("send to vechile: %f %f %f %f",msgtwist.twist.linear.x,msgtwist.twist.linear.y,msgtwist.twist.linear.z,msgtwist.twist.angular.z*rad2deg);
                 local_vel_pub.publish(msgtwist);
                 planned_update_flag = false;
             
@@ -210,7 +222,7 @@ int main(int argc, char **argv)
                 msgtwist.twist.linear=linear_tmp;
                 msgtwist.twist.angular=angular_tmp;
                 local_vel_pub.publish(msgtwist);
-                ROS_INFO("no planned message: %f %f %f %f",msgtwist.twist.linear.x,msgtwist.twist.linear.y,msgtwist.twist.linear.z,msgtwist.twist.angular.z*rad2deg);
+                // ROS_INFO("no planned message: %f %f %f %f",msgtwist.twist.linear.x,msgtwist.twist.linear.y,msgtwist.twist.linear.z,msgtwist.twist.angular.z*rad2deg);
                 // ROS_INFO("no planned message");
             }
         }
