@@ -899,11 +899,11 @@ void SDFMap::cloudCallback(const sensor_msgs::PointCloud2ConstPtr& img) {
       
   for (size_t i = 0; i < latest_cloud.points.size(); ++i) {
     // pt = latest_cloud.points[i];
-    Eigen::Vector3d PointE(latest_cloud.points[i].x + md_.camera_pos_(0), md_.camera_pos_(1) + latest_cloud.points[i].y, md_.camera_pos_(2) + latest_cloud.points[i].z);
+    Eigen::Vector3d PointE(latest_cloud.points[i].x ,latest_cloud.points[i].y, latest_cloud.points[i].z);
     PointE =  R*PointE;
-    pt.x = PointE(0);
-    pt.y = PointE(1);
-    pt.z = PointE(2);
+    pt.x = PointE(0)+ md_.camera_pos_(0);
+    pt.y = PointE(1)+ md_.camera_pos_(1);
+    pt.z = PointE(2)+ md_.camera_pos_(2);
 
 
     // i = i+1;

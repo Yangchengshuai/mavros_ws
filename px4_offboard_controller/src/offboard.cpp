@@ -65,15 +65,19 @@ void odometry_callback(const nav_msgs::Odometry &current_info)
     //need to be change the rotate angle ,becuse of the setup formation of d435i 
     //pitch -90
     Eigen::Matrix3d Rpitch;
-        Rpitch<< 0, 0, -1,
-            0, 1, 0,
-            1, 0, 0;
-    // roll 90
+        Rpitch<< cos(-1.57), 0,  -sin(-1.57),
+                    0,       1,     0,
+                sin(-1.57),  0, cos(-1.57);
+    // roll -90
     Eigen::Matrix3d Rroll;
     Rroll<< 1, 0, 0,
-            0, 0, 1,
-            0, -1, 0;
-    pose_tf = unionsys_core->calculate_cam_pos(plane_odom, Rpitch, Rroll);
+            0, cos(-1.57), sin(-1.57),
+            0, -sin(-1.57), cos(-1.57);
+
+
+    // pose_tf = unionsys_core->calculate_cam_pos(plane_odom,1.57,0,1.57);
+    pose_tf = unionsys_core->calculate_cam_pos(plane_odom,Rroll,Rpitch);
+
     pose_tf.header.stamp = ros::Time::now();
     pose_tf.header.frame_id = "world";
 
