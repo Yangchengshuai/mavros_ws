@@ -220,7 +220,7 @@ int main(int argc, char **argv)
                 linear_tmp.z = velocity_expected.z;
                 angular_tmp.x = 0;
                 angular_tmp.y = 0;
-                angular_tmp.z = attitude_expect.z;
+                angular_tmp.z = 0;//attitude_expect.z;
                 msgtwist.header.stamp = ros::Time::now();
                 msgtwist.header.seq=1;
                 msgtwist.twist.linear=linear_tmp;

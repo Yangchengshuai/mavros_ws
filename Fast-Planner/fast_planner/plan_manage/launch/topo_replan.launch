@@ -41,7 +41,7 @@
 
     <!-- maximum velocity and acceleration the drone will reach -->
     <arg name="max_vel" value="0.6" />
-    <arg name="max_acc" value="0.2" />
+    <arg name="max_acc" value="0.5" />
 
     <!-- 1: use 2D Nav Goal to select goal  -->
     <!-- 2: use global waypoints below  -->
@@ -51,30 +51,30 @@
     <!-- global waypoints -->
     <arg name="point_num" value="6" />
 
-    <arg name="point0_x" value="3.0" />
-    <arg name="point0_y" value="0.0" />
+    <arg name="point0_x" value="-3.2" />
+    <arg name="point0_y" value="-0.0" />
     <arg name="point0_z" value="1.5" />
 
     <!-- set more waypoints if you need -->
-    <arg name="point1_x" value="3.0" />
-    <arg name="point1_y" value="3.0" />
+    <arg name="point1_x" value="-3.2" />
+    <arg name="point1_y" value="-2.5" />
     <arg name="point1_z" value="1.5" />
 
-    <arg name="point2_x" value="1.5" />
-    <arg name="point2_y" value="3.1" />
+    <arg name="point2_x" value="-1.7" />
+    <arg name="point2_y" value="-3.5" />
     <arg name="point2_z" value="1.5" />
     
 
-    <arg name="point3_x" value="3.0" />
-    <arg name="point3_y" value="2.5" />
+    <arg name="point3_x" value="-3.2" />
+    <arg name="point3_y" value="-2.5" />
     <arg name="point3_z" value="1.5" />
 
-    <arg name="point4_x" value="3.0" />
-    <arg name="point4_y" value="0.2" />
+    <arg name="point4_x" value="-3.2" />
+    <arg name="point4_y" value="-0.0" />
     <arg name="point4_z" value="1.5" />
 
-    <arg name="point5_x" value="0.0" />
-    <arg name="point5_y" value="0.0" />
+    <arg name="point5_x" value="-0.0" />
+    <arg name="point5_y" value="-0.0" />
     <arg name="point5_z" value="1.5" />
 
   </include>

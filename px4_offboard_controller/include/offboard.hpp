@@ -39,7 +39,7 @@
 RegisterMSN *unionsys_core = new RegisterMSN();
 
 //控制pid
-const float P_pos = 1.5;
+const float P_pos = 1.0;
 const float I_pos = 0.0;
 const float D_pos = 0.0;
 const float P_yaw = 1.00;
@@ -51,7 +51,7 @@ const float I_VEL_LIMIT = 0.025; //the intergrate item limit of position control
 const float D_VEL_LIMIT = 0.015;
 
 const float YAW_I_LIMIT = 2.0;
-const float YAW_RATE_LIMIT = 20.0;
+const float YAW_RATE_LIMIT = 45.0;
 
 const float BIZHANG_LIMIT = 0.5;
 
