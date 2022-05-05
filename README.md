@@ -22,6 +22,8 @@ sleep 5s
 gnome-terminal -x bash -c  "source $HOME/mavros_ws/devel/setup.bash;roslaunch plan_manage topo_replan.launch ;exec bash"  
 sleep 5s  
 gnome-terminal -x bash -c  "source $HOME/mavros_ws/devel/setup.bash;roslaunch off_board_test main.launch ;exec bash"  
+sleep 5s  
+gnome-terminal -x bash -c  "source $HOME/mavros_ws/devel/setup.bash;cd $HOME/mavros_ws/src/fp_for_xgd/px4_offboard_controller/script;python duoji.py;exec bash"  
 wait  
 exit 0  
 
