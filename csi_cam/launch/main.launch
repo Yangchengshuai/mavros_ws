@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch> 
+  <node pkg="csi_cam" type="csi_cam" name="csi_cam" respawn="false" output="screen">
+  <!--remap from="cmd_vel_smoothed" to="cmd_vel_manual"/--> 
+  </node>
+</launch>
